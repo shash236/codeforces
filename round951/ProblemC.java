@@ -19,56 +19,52 @@ public class ProblemC {
 
     private static void solve(final Scanner scanner) {
         int n = scanner.nextInt();
-        int[] arr = new int[n];
+        long[] arr = new long[n];
         for (int i = 0; i < arr.length; i++) {
             arr[i] = scanner.nextInt();
         }
         solve(n,arr);
     }
 
-    private static void solve(int n, int[] arr) {
-        long s = n;
-        long e = (long)1000000000 * n;
-        long ans = -1;
-        while (s <= e) {
-            long m = s + (e - s) / 2;
-            if (isValidSum(n, arr, m)) {
-                ans = m;
-                break;
-            } else {
-                s = m + 1;
-            }
-        }
-
-        //print ans
-        if (ans == -1) {
-            System.out.println(-1);
-        } else {
-            printValidSolution(n, arr, ans);
-        }
-
-    }
-
-    private static boolean isValidSum(int n, int[] arr, long sum) {
-        long leastSum = 0;
+    private static void solve(int n, long[] arr) {
+        long arrLcm = 1;
         for (int i = 0; i < arr.length; i++) {
-            leastSum += (sum / arr[i]) + 1;
+            arrLcm = lcm(arrLcm, arr[i]);
         }
-        return leastSum <= sum;
+
+        long[] ans = new long[n];
+
+        long sum = 0;
+        for (int i = 0; i < arr.length; i++) {
+            ans[i] = arrLcm/arr[i];
+            sum += ans[i];
+        }
+
+        if(sum < arrLcm){
+            printArray(ans);
+        }else{
+            System.out.println(-1);
+        }
     }
 
-    private static void printValidSolution(int n, int[] arr, long ans) {
-        long[] ansArr = new long[n];
-        long leastSum = 0;
-        for (int i = 0; i < ansArr.length; i++) {
-            ansArr[i] = (ans / arr[i]) + 1;
-            leastSum += ansArr[i];
-        }
-        ansArr[0] += ans - leastSum;
+    private static void printArray(long[] arr) {
         StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < ansArr.length; i++) {
-            stringBuilder.append(ansArr[i]).append(' ');
+        for (int i = 0; i < arr.length; i++) {
+            stringBuilder.append(arr[i]).append(' ');
         }
         System.out.println(stringBuilder);
+    }
+
+    private static long lcm(long a, long b) {
+        return ((long)a*b)/gcd(a, b);
+    }
+
+    private static long gcd (long a, long b) {
+        while (b != 0) {
+            long tmp = a % b;
+            a = b;
+            b = tmp;
+        }
+        return a;
     }
 }
