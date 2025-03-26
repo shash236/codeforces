@@ -29,27 +29,15 @@ public class SkiResort {
     }
 
     private static long solve(int n, int leastVacationDays, int maxTemp, int[] temp) {
-        int str = 0;
+        int str = -1;
         long maxVacations = 0;
-        
-        while(str < n) {
-            while(str < n && temp[str] > maxTemp) str++;
-            int end = str + 1;
-            while(end < n){
-                if(temp[end] > maxTemp){
-                    maxVacations += calculateNumOfVactions(leastVacationDays, end - str);
-                    str = end+1;
-                    break;
-                }else{
-                    end++;
-                }
-            }
-            if(end == n) {
-                maxVacations += calculateNumOfVactions(leastVacationDays, n - str);
-                str = n;
+        for(int end = 0; end < n; end++) {
+            if(temp[end] > maxTemp){
+                maxVacations += calculateNumOfVactions(leastVacationDays, end - str - 1);
+                str = end;
             }
         }
-
+        maxVacations += calculateNumOfVactions(leastVacationDays, n - str - 1);
         return maxVacations;
     }
 
