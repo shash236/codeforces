@@ -21,7 +21,8 @@ public class GreedyGrid {
         int n = scanner.nextInt();
         int m = scanner.nextInt();
         boolean ans = true;
-        if(n <= 2 && m <= 2) {
+
+        if(n == 1 || m == 1 || (n == 2 && m == 2)) {
             ans = false;
         }
         System.out.println(ans ? "YES" : "NO");
